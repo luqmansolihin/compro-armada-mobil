@@ -7,7 +7,7 @@
 
 @section('content')
     <!-- Banner Header -->
-    <section class="about-hero" style="background-image: url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=1600')">
+    <section class="about-hero" style="background-image: url('{{ asset('storage/uploads/blogs_cover_banner.png') }}'); background-position: center;">
         <div class="about-hero-content">
             <h1 style="color: var(--color-text-light); text-shadow: 0 2px 4px rgba(0,0,0,0.65);">BLOGS & ARTICLES</h1>
             <p style="color: var(--color-text-light); font-size: 1.2rem; text-shadow: 0 1px 2px rgba(0,0,0,0.65);">Tips Otomotif, Info Kegiatan, dan Kabar Terbaru Seputar Isuzu & Daihatsu.</p>
