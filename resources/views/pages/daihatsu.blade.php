@@ -7,7 +7,7 @@
 
 @section('content')
     <!-- Brand Banner -->
-    <section class="about-hero" style="background-image: url('https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&q=80&w=1600')">
+    <section class="about-hero" style="background-image: url('{{ asset('storage/uploads/daihatsu_cover_banner.png') }}')">
         <div class="about-hero-content">
             <h1 style="color: var(--color-text-light); text-shadow: 0 2px 4px rgba(0,0,0,0.6);">DAIHATSU VEHICLES</h1>
             <p style="color: var(--color-text-light); font-size: 1.2rem; text-shadow: 0 1px 2px rgba(0,0,0,0.6);">Sahabatku. Kendaraan Cerdas, Nyaman, dan Paling Pas untuk Keluarga Indonesia.</p>
