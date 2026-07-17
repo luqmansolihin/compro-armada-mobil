@@ -103,8 +103,16 @@
                         <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                             <label for="cabang" style="font-weight: 600; font-size: 0.9rem; color: var(--color-secondary);">Pilih Cabang</label>
                             <select id="cabang" required style="padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); outline: none; font-family: inherit; background-color: white;">
-                                <option value="Cabang Jakarta">Jakarta Pusat</option>
-                                <option value="Cabang Surabaya">Surabaya</option>
+                                <option value="" disabled selected>Pilih Cabang Bengkel</option>
+                                @foreach($outlets as $outlet)
+                                    @php
+                                        $waNumber = $outlet->whatsapp ?: ($contacts->where('type', 'WhatsApp')->first()?->contact ?? '6281234567890');
+                                        $waClean = str_replace(['+', '-', ' '], '', $waNumber);
+                                    @endphp
+                                    <option value="{{ $outlet->id }}" data-name="{{ $outlet->name }}" data-whatsapp="{{ $waClean }}">
+                                        {{ $outlet->name }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
 
@@ -137,19 +145,19 @@
             const nama = document.getElementById('nama').value;
             const phone = document.getElementById('phone').value;
             const mobil = document.getElementById('mobil').value;
-            const cabang = document.getElementById('cabang').value;
+            
+            const cabangSelect = document.getElementById('cabang');
+            const selectedOption = cabangSelect.options[cabangSelect.selectedIndex];
+            const cabangName = selectedOption.getAttribute('data-name');
+            const cabangWa = selectedOption.getAttribute('data-whatsapp');
+            
             const tanggal = document.getElementById('tanggal').value;
             const keluhan = document.getElementById('keluhan').value;
             
             // Format WhatsApp Message
-            const message = `Halo Bengkel Resmi Armada Mobil,\n\nSaya ingin melakukan booking servis online dengan rincian berikut:\n\n*Nama:* ${nama}\n*WhatsApp:* ${phone}\n*Kendaraan:* ${mobil}\n*Cabang Bengkel:* ${cabang}\n*Rencana Tanggal:* ${tanggal}\n*Keterangan/Keluhan:* ${keluhan}\n\nMohon konfirmasi ketersediaan jadwal antrean. Terima kasih!`;
+            const message = `Halo Bengkel Resmi ${cabangName},\n\nSaya ingin melakukan booking servis online dengan rincian berikut:\n\n*Nama:* ${nama}\n*WhatsApp:* ${phone}\n*Kendaraan:* ${mobil}\n*Cabang Bengkel:* ${cabangName}\n*Rencana Tanggal:* ${tanggal}\n*Keterangan/Keluhan:* ${keluhan}\n\nMohon konfirmasi ketersediaan jadwal antrean. Terima kasih!`;
             
-            @php
-                $waContact = $contacts->where('type', 'WhatsApp')->first()?->contact ?? '+62 812-3456-7890';
-                $waClean = str_replace(['+', '-', ' '], '', $waContact);
-            @endphp
-            
-            const waLink = `https://wa.me/{{ $waClean }}?text=${encodeURIComponent(message)}`;
+            const waLink = `https://wa.me/${cabangWa}?text=${encodeURIComponent(message)}`;
             
             // Redirect to WhatsApp
             window.open(waLink, '_blank');

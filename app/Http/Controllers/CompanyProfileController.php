@@ -154,9 +154,10 @@ class CompanyProfileController extends Controller
     {
         $aftersales = AfterSale::where('status', true)->latest()->get();
         $services = Service::latest()->get();
+        $outlets = Outlet::latest()->get();
         $contacts = $this->getContacts();
 
-        return view('pages.purna-jual', compact('aftersales', 'services', 'contacts'));
+        return view('pages.purna-jual', compact('aftersales', 'services', 'outlets', 'contacts'));
     }
 
     /**
