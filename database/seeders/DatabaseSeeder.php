@@ -149,6 +149,7 @@ class DatabaseSeeder extends Seeder
         // 8. Outlets (Our Branch) & Operational Hours
         $outletJkt = Outlet::create([
             'user_id' => $admin->id,
+            'product_brand_id' => $daihatsu->id,
             'name' => 'Armada Mobil - Cabang Jakarta',
             'address' => 'Jl. Automotive Raya No. 88, Kavling 3-5, Jakarta Pusat',
             'phone' => '021-1234567',
@@ -161,6 +162,7 @@ class DatabaseSeeder extends Seeder
 
         $outletSby = Outlet::create([
             'user_id' => $admin->id,
+            'product_brand_id' => $isuzu->id,
             'name' => 'Armada Mobil - Cabang Surabaya',
             'address' => 'Jl. Dharmahusada Indah No. 12, Surabaya, Jawa Timur',
             'phone' => '031-7654321',

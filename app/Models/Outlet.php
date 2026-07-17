@@ -15,6 +15,7 @@ class Outlet extends Model
 
     protected $fillable = [
         'user_id',
+        'product_brand_id',
         'name',
         'address',
         'phone',
@@ -28,6 +29,11 @@ class Outlet extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function brand(): BelongsTo
+    {
+        return $this->belongsTo(ProductBrand::class, 'product_brand_id');
     }
 
     public function services(): BelongsToMany

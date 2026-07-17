@@ -29,6 +29,10 @@ class OutletResource extends Resource
                         Forms\Components\TextInput::make('name')
                             ->required()
                             ->maxLength(255),
+                        Forms\Components\Select::make('product_brand_id')
+                            ->relationship('brand', 'name')
+                            ->label('Brand')
+                            ->placeholder('Pilih Merek (Kosongkan jika semua merek / dual-brand)'),
                         Forms\Components\Textarea::make('address')
                             ->required()
                             ->maxLength(65535)
@@ -95,6 +99,17 @@ class OutletResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('brand.name')
+                    ->label('Brand')
+                    ->badge()
+                    ->color(fn ($state) => match ($state) {
+                        'daihatsu' => 'info',
+                        'isuzu' => 'danger',
+                        default => 'gray',
+                    })
+                    ->placeholder('Dual-Brand')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
                     ->searchable()
                     ->sortable(),

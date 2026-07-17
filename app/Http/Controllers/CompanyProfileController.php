@@ -71,7 +71,7 @@ class CompanyProfileController extends Controller
      */
     public function branch()
     {
-        $outlets = Outlet::with(['services', 'operationalHours'])->latest()->get();
+        $outlets = Outlet::with(['brand', 'services', 'operationalHours'])->latest()->get();
         $contacts = $this->getContacts();
 
         return view('pages.branch', compact('outlets', 'contacts'));
