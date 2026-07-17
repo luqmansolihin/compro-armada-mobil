@@ -138,27 +138,23 @@
 
                 {{-- Horizontal Social Media Icons --}}
                 <div style="display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
-                    @forelse($was as $w)
-                        @php $wClean = str_replace(['+', '-', ' ', '@'], '', $w->contact); @endphp
-                        <a href="https://wa.me/{{ $wClean }}" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background-color: rgba(255,255,255,0.08); color: white; transition: background-color 0.2s ease, transform 0.2s ease;" onmouseover="this.style.backgroundColor='#25d366'; this.style.transform='scale(1.1)';" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.08)'; this.style.transform='scale(1)';" title="Hubungi WhatsApp">
-                            <i class="fa-brands fa-whatsapp" style="font-size: 0.95rem;"></i>
-                        </a>
-                    @empty
-                        <a href="https://wa.me/6281234567890" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background-color: rgba(255,255,255,0.08); color: white; transition: background-color 0.2s ease, transform 0.2s ease;" onmouseover="this.style.backgroundColor='#25d366'; this.style.transform='scale(1.1)';" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.08)'; this.style.transform='scale(1)';" title="Hubungi WhatsApp">
-                            <i class="fa-brands fa-whatsapp" style="font-size: 0.95rem;"></i>
-                        </a>
-                    @endforelse
+                    @if($was->isNotEmpty())
+                        @foreach($was as $w)
+                            @php $wClean = str_replace(['+', '-', ' ', '@'], '', $w->contact); @endphp
+                            <a href="https://wa.me/{{ $wClean }}" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background-color: rgba(255,255,255,0.08); color: white; transition: background-color 0.2s ease, transform 0.2s ease;" onmouseover="this.style.backgroundColor='#25d366'; this.style.transform='scale(1.1)';" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.08)'; this.style.transform='scale(1)';" title="Hubungi WhatsApp">
+                                <i class="fa-brands fa-whatsapp" style="font-size: 0.95rem;"></i>
+                            </a>
+                        @endforeach
+                    @endif
 
-                    @forelse($igs as $i)
-                        @php $igHandle = ltrim($i->contact, '@'); @endphp
-                        <a href="https://instagram.com/{{ $igHandle }}" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background-color: rgba(255,255,255,0.08); color: white; transition: background-color 0.2s ease, transform 0.2s ease;" onmouseover="this.style.backgroundColor='#e1306c'; this.style.transform='scale(1.1)';" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.08)'; this.style.transform='scale(1)';" title="Instagram Resmi">
-                            <i class="fa-brands fa-instagram" style="font-size: 0.95rem;"></i>
-                        </a>
-                    @empty
-                        <a href="https://instagram.com/armada_mobil" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background-color: rgba(255,255,255,0.08); color: white; transition: background-color 0.2s ease, transform 0.2s ease;" onmouseover="this.style.backgroundColor='#e1306c'; this.style.transform='scale(1.1)';" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.08)'; this.style.transform='scale(1)';" title="Instagram Resmi">
-                            <i class="fa-brands fa-instagram" style="font-size: 0.95rem;"></i>
-                        </a>
-                    @endforelse
+                    @if($igs->isNotEmpty())
+                        @foreach($igs as $i)
+                            @php $igHandle = ltrim($i->contact, '@'); @endphp
+                            <a href="https://instagram.com/{{ $igHandle }}" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background-color: rgba(255,255,255,0.08); color: white; transition: background-color 0.2s ease, transform 0.2s ease;" onmouseover="this.style.backgroundColor='#e1306c'; this.style.transform='scale(1.1)';" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.08)'; this.style.transform='scale(1)';" title="Instagram Resmi">
+                                <i class="fa-brands fa-instagram" style="font-size: 0.95rem;"></i>
+                            </a>
+                        @endforeach
+                    @endif
 
                     @foreach($fbs as $fb)
                         @php $fbUrl = filter_var($fb->contact, FILTER_VALIDATE_URL) ? $fb->contact : 'https://facebook.com/' . $fb->contact; @endphp
