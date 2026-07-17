@@ -47,6 +47,9 @@ class DatabaseSeeder extends Seeder
             'address' => 'Jl. Automotive Raya No. 88, Kavling 3-5, Jakarta Pusat, DKI Jakarta',
             'short_description' => 'Armada Mobil adalah dealer resmi otomotif terpercaya yang melayani penjualan dan purna jual kendaraan Isuzu dan Daihatsu.',
             'description' => 'Didirikan sejak tahun 2010, Armada Mobil telah menjadi mitra utama bagi ribuan keluarga dan pelaku bisnis di Indonesia dalam penyediaan kendaraan berkualitas tinggi. Kami berkomitmen untuk selalu menghadirkan pelayanan terbaik, solusi pembiayaan yang mudah, serta jaringan servis purna jual yang luas guna memastikan kepuasan dan kelancaran mobilitas Anda.',
+            'about_title' => 'Armada Mobil Otomotif',
+            'about_image' => 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&q=80&w=800',
+            'experience_years' => '15+',
             'vision' => 'Menjadi perusahaan otomotif terdepan dan paling terpercaya di Indonesia yang memberikan solusi transportasi terbaik bagi kebutuhan keluarga maupun kelancaran operasional bisnis pelanggan.',
             'mission' => 'Menyediakan produk kendaraan Isuzu & Daihatsu berkualitas tinggi, memberikan pelayanan servis purna jual yang cepat dan handal, serta menciptakan kenyamanan bertransaksi melalui solusi pembiayaan terpercaya.',
             'history' => [

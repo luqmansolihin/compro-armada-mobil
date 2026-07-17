@@ -43,6 +43,24 @@ class ProfileResource extends Resource
                 Forms\Components\RichEditor::make('description')
                     ->required()
                     ->columnSpanFull(),
+                Forms\Components\TextInput::make('about_title')
+                    ->label('Judul Deskripsi Halaman About Us')
+                    ->required()
+                    ->maxLength(255)
+                    ->columnSpanFull(),
+                Forms\Components\FileUpload::make('about_image')
+                    ->image()
+                    ->directory('uploads')
+                    ->label('Gambar Kendaraan / Showroom Halaman About Us')
+                    ->helperText('Rekomendasi ukuran: 800 x 600 px')
+                    ->fetchFileInformation(false)
+                    ->required()
+                    ->columnSpanFull(),
+                Forms\Components\TextInput::make('experience_years')
+                    ->label('Tahun Pengalaman (e.g. 14+)')
+                    ->required()
+                    ->maxLength(255)
+                    ->columnSpanFull(),
                 Forms\Components\Textarea::make('vision')
                     ->required()
                     ->label('Visi Perusahaan')

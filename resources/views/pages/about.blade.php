@@ -19,7 +19,7 @@
         <div class="grid-2">
             <div>
                 <span class="career-badge" style="margin-bottom: 0.5rem; display: inline-block;">PROFIL PERUSAHAAN</span>
-                <h2 style="font-size: 2.2rem; margin-bottom: 1.5rem; color: var(--color-secondary);">Armada Mobil Otomotif</h2>
+                <h2 style="font-size: 2.2rem; margin-bottom: 1.5rem; color: var(--color-secondary);">{{ $profile->about_title ?? 'Armada Mobil Otomotif' }}</h2>
                 <p style="font-size: 1.15rem; color: var(--color-text-muted); font-weight: 500; margin-bottom: 1.5rem; line-height: 1.6;">
                     {{ $profile->short_description ?? 'Armada Mobil adalah dealer resmi otomotif terpercaya yang melayani penjualan dan purna jual kendaraan Isuzu dan Daihatsu.' }}
                 </p>
@@ -29,10 +29,10 @@
             </div>
             
             <div class="about-image-container">
-                <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&q=80&w=800" style="border-radius: var(--radius-xl); box-shadow: var(--shadow-lg);" alt="Showroom Mobil">
+                <img src="{{ $profile->about_image ?? 'https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&q=80&w=800' }}" style="border-radius: var(--radius-xl); box-shadow: var(--shadow-lg);" alt="Showroom Mobil">
                 
                 <div class="experience-badge">
-                    <div class="badge-number">15+</div>
+                    <div class="badge-number">{{ $profile->experience_years ?? '15+' }}</div>
                     <div class="badge-text">Tahun Pengalaman</div>
                 </div>
             </div>

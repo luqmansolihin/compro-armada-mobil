@@ -16,6 +16,9 @@ class Profile extends Model
         'address',
         'short_description',
         'description',
+        'about_title',
+        'about_image',
+        'experience_years',
         'vision',
         'mission',
         'history'
@@ -40,6 +43,17 @@ class Profile extends Model
     }
 
     public function getCoverAttribute($value)
+    {
+        if (!$value) {
+            return null;
+        }
+        if (request()->is('admin*') || request()->is('livewire*') || app()->runningInConsole()) {
+            return $value;
+        }
+        return filter_var($value, FILTER_VALIDATE_URL) ? $value : asset('storage/' . $value);
+    }
+
+    public function getAboutImageAttribute($value)
     {
         if (!$value) {
             return null;
