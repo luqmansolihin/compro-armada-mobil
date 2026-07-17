@@ -24,10 +24,19 @@ class ContactResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('type')
+                Forms\Components\Select::make('type')
+                    ->options([
+                        'Phone' => 'Phone / Telepon',
+                        'WhatsApp' => 'WhatsApp',
+                        'Email' => 'Email',
+                        'Instagram' => 'Instagram',
+                        'Facebook' => 'Facebook',
+                        'Twitter' => 'Twitter / X',
+                        'YouTube' => 'YouTube',
+                        'TikTok' => 'TikTok',
+                    ])
                     ->required()
-                    ->placeholder('e.g. Phone, WhatsApp, Email, Instagram')
-                    ->maxLength(255),
+                    ->placeholder('Pilih Tipe Kontak / Social Media'),
                 Forms\Components\TextInput::make('contact')
                     ->required()
                     ->maxLength(255),

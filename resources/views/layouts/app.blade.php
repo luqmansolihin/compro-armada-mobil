@@ -106,16 +106,44 @@
                 <h4>Hubungi Kami</h4>
                 <ul class="footer-contact-list">
                     @php 
-                        $phone = isset($contacts) ? ($contacts->where('type', 'Phone')->first()?->contact ?? '+62 21-1234567') : '+62 21-1234567';
-                        $wa = isset($contacts) ? ($contacts->where('type', 'WhatsApp')->first()?->contact ?? '+62 812-3456-7890') : '+62 812-3456-7890';
-                        $email = isset($contacts) ? ($contacts->where('type', 'Email')->first()?->contact ?? 'info@armada-mobil.co.id') : 'info@armada-mobil.co.id';
-                        $ig = isset($contacts) ? ($contacts->where('type', 'Instagram')->first()?->contact ?? '@armada_mobil') : '@armada_mobil';
+                        $phones = isset($contacts) ? $contacts->where('type', 'Phone') : collect();
+                        $was = isset($contacts) ? $contacts->where('type', 'WhatsApp') : collect();
+                        $emails = isset($contacts) ? $contacts->where('type', 'Email') : collect();
+                        $igs = isset($contacts) ? $contacts->where('type', 'Instagram') : collect();
                         $globalHours = \App\Models\OperationalHour::all();
                     @endphp
-                    <li><i class="fa-solid fa-phone"></i> {{ $phone }}</li>
-                    <li><i class="fa-brands fa-whatsapp"></i> {{ $wa }}</li>
-                    <li><i class="fa-solid fa-envelope"></i> {{ $email }}</li>
-                    <li><i class="fa-brands fa-instagram"></i> {{ $ig }}</li>
+
+                    @if($phones->isNotEmpty())
+                        @foreach($phones as $p)
+                            <li><i class="fa-solid fa-phone"></i> {{ $p->contact }}</li>
+                        @endforeach
+                    @else
+                        <li><i class="fa-solid fa-phone"></i> +62 21-1234567</li>
+                    @endif
+
+                    @if($was->isNotEmpty())
+                        @foreach($was as $w)
+                            <li><i class="fa-brands fa-whatsapp"></i> {{ $w->contact }}</li>
+                        @endforeach
+                    @else
+                        <li><i class="fa-brands fa-whatsapp"></i> +62 812-3456-7890</li>
+                    @endif
+
+                    @if($emails->isNotEmpty())
+                        @foreach($emails as $e)
+                            <li><i class="fa-solid fa-envelope"></i> {{ $e->contact }}</li>
+                        @endforeach
+                    @else
+                        <li><i class="fa-solid fa-envelope"></i> info@armada-mobil.co.id</li>
+                    @endif
+
+                    @if($igs->isNotEmpty())
+                        @foreach($igs as $i)
+                            <li><i class="fa-brands fa-instagram"></i> {{ $i->contact }}</li>
+                        @endforeach
+                    @else
+                        <li><i class="fa-brands fa-instagram"></i> @armada_mobil</li>
+                    @endif
                 </ul>
 
                 @if($globalHours->isNotEmpty())
