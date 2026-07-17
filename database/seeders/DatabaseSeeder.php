@@ -47,6 +47,26 @@ class DatabaseSeeder extends Seeder
             'address' => 'Jl. Automotive Raya No. 88, Kavling 3-5, Jakarta Pusat, DKI Jakarta',
             'short_description' => 'Armada Mobil adalah dealer resmi otomotif terpercaya yang melayani penjualan dan purna jual kendaraan Isuzu dan Daihatsu.',
             'description' => 'Didirikan sejak tahun 2010, Armada Mobil telah menjadi mitra utama bagi ribuan keluarga dan pelaku bisnis di Indonesia dalam penyediaan kendaraan berkualitas tinggi. Kami berkomitmen untuk selalu menghadirkan pelayanan terbaik, solusi pembiayaan yang mudah, serta jaringan servis purna jual yang luas guna memastikan kepuasan dan kelancaran mobilitas Anda.',
+            'vision' => 'Menjadi perusahaan otomotif terdepan dan paling terpercaya di Indonesia yang memberikan solusi transportasi terbaik bagi kebutuhan keluarga maupun kelancaran operasional bisnis pelanggan.',
+            'mission' => 'Menyediakan produk kendaraan Isuzu & Daihatsu berkualitas tinggi, memberikan pelayanan servis purna jual yang cepat dan handal, serta menciptakan kenyamanan bertransaksi melalui solusi pembiayaan terpercaya.',
+            'history' => [
+                [
+                    'year' => 'Tahun 2010',
+                    'description' => 'Dealer pertama kami resmi didirikan di Jakarta Pusat untuk memasarkan unit kendaraan Daihatsu.'
+                ],
+                [
+                    'year' => 'Tahun 2014',
+                    'description' => 'Membuka cabang baru di Surabaya dan secara resmi menjalin kerjasama sebagai dealer resmi Isuzu.'
+                ],
+                [
+                    'year' => 'Tahun 2018',
+                    'description' => 'Meluncurkan program Layanan Mobile Service Car untuk menjangkau servis kendaraan operasional langsung ke lapangan.'
+                ],
+                [
+                    'year' => 'Tahun 2024 - Sekarang',
+                    'description' => 'Mengintegrasikan sistem reservasi booking servis secara online, dan melayani ribuan pelanggan komersial di Indonesia.'
+                ]
+            ],
         ]);
 
         // 4. Products (Cars)

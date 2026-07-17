@@ -46,16 +46,16 @@
                 <div class="service-icon-box" style="text-align: left; padding: 3rem;">
                     <div class="service-icon-wrapper" style="margin-left: 0;"><i class="fa-solid fa-eye"></i></div>
                     <h3 style="font-size: 1.75rem; margin-bottom: 1rem; color: var(--color-secondary);">Visi Kami</h3>
-                    <p style="color: var(--color-text-muted); font-size: 1.05rem;">
-                        Menjadi perusahaan otomotif terdepan dan paling terpercaya di Indonesia yang memberikan solusi transportasi terbaik bagi kebutuhan keluarga maupun kelancaran operasional bisnis pelanggan.
+                    <p style="color: var(--color-text-muted); font-size: 1.05rem; white-space: pre-line;">
+                        {{ $profile->vision ?? 'Menjadi perusahaan otomotif terdepan dan paling terpercaya di Indonesia yang memberikan solusi transportasi terbaik bagi kebutuhan keluarga maupun kelancaran operasional bisnis pelanggan.' }}
                     </p>
                 </div>
                 
                 <div class="service-icon-box" style="text-align: left; padding: 3rem;">
                     <div class="service-icon-wrapper" style="margin-left: 0;"><i class="fa-solid fa-bullseye"></i></div>
                     <h3 style="font-size: 1.75rem; margin-bottom: 1rem; color: var(--color-secondary);">Misi Kami</h3>
-                    <p style="color: var(--color-text-muted); font-size: 1.05rem;">
-                        Menyediakan produk kendaraan Isuzu & Daihatsu berkualitas tinggi, memberikan pelayanan servis purna jual yang cepat dan handal, serta menciptakan kenyamanan bertransaksi melalui solusi pembiayaan terpercaya.
+                    <p style="color: var(--color-text-muted); font-size: 1.05rem; white-space: pre-line;">
+                        {{ $profile->mission ?? 'Menyediakan produk kendaraan Isuzu & Daihatsu berkualitas tinggi, memberikan pelayanan servis purna jual yang cepat dan handal, serta menciptakan kenyamanan bertransaksi melalui solusi pembiayaan terpercaya.' }}
                     </p>
                 </div>
             </div>
@@ -70,37 +70,49 @@
         </div>
 
         <div class="about-timeline">
-            <div class="timeline-item">
-                <div class="timeline-badge"></div>
-                <div class="timeline-panel">
-                    <h3>Tahun 2010</h3>
-                    <p>Dealer pertama kami resmi didirikan di Jakarta Pusat untuk memasarkan unit kendaraan Daihatsu.</p>
+            @if(!empty($profile->history) && is_array($profile->history))
+                @foreach($profile->history as $item)
+                    <div class="timeline-item">
+                        <div class="timeline-badge"></div>
+                        <div class="timeline-panel">
+                            <h3>{{ $item['year'] ?? '' }}</h3>
+                            <p>{{ $item['description'] ?? '' }}</p>
+                        </div>
+                    </div>
+                @endforeach
+            @else
+                <div class="timeline-item">
+                    <div class="timeline-badge"></div>
+                    <div class="timeline-panel">
+                        <h3>Tahun 2010</h3>
+                        <p>Dealer pertama kami resmi didirikan di Jakarta Pusat untuk memasarkan unit kendaraan Daihatsu.</p>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-badge"></div>
-                <div class="timeline-panel">
-                    <h3>Tahun 2014</h3>
-                    <p>Membuka cabang baru di Surabaya dan secara resmi menjalin kerjasama sebagai dealer resmi Isuzu.</p>
+                
+                <div class="timeline-item">
+                    <div class="timeline-badge"></div>
+                    <div class="timeline-panel">
+                        <h3>Tahun 2014</h3>
+                        <p>Membuka cabang baru di Surabaya dan secara resmi menjalin kerjasama sebagai dealer resmi Isuzu.</p>
+                    </div>
                 </div>
-            </div>
 
-            <div class="timeline-item">
-                <div class="timeline-badge"></div>
-                <div class="timeline-panel">
-                    <h3>Tahun 2018</h3>
-                    <p>Meluncurkan program Layanan Mobile Service Car untuk menjangkau servis kendaraan operasional langsung ke lapangan.</p>
+                <div class="timeline-item">
+                    <div class="timeline-badge"></div>
+                    <div class="timeline-panel">
+                        <h3>Tahun 2018</h3>
+                        <p>Meluncurkan program Layanan Mobile Service Car untuk menjangkau servis kendaraan operasional langsung ke lapangan.</p>
+                    </div>
                 </div>
-            </div>
 
-            <div class="timeline-item">
-                <div class="timeline-badge"></div>
-                <div class="timeline-panel">
-                    <h3>Tahun 2024 - Sekarang</h3>
-                    <p>Mengintegrasikan sistem reservasi booking servis secara online, dan melayani ribuan pelanggan komersial di Indonesia.</p>
+                <div class="timeline-item">
+                    <div class="timeline-badge"></div>
+                    <div class="timeline-panel">
+                        <h3>Tahun 2024 - Sekarang</h3>
+                        <p>Mengintegrasikan sistem reservasi booking servis secara online, dan melayani ribuan pelanggan komersial di Indonesia.</p>
+                    </div>
                 </div>
-            </div>
+            @endif
         </div>
     </section>
 @endsection

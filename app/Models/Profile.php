@@ -15,7 +15,14 @@ class Profile extends Model
         'cover',
         'address',
         'short_description',
-        'description'
+        'description',
+        'vision',
+        'mission',
+        'history'
+    ];
+
+    protected $casts = [
+        'history' => 'array'
     ];
 
     public function user(): BelongsTo

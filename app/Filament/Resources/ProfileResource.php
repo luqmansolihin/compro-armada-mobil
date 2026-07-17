@@ -43,6 +43,26 @@ class ProfileResource extends Resource
                 Forms\Components\RichEditor::make('description')
                     ->required()
                     ->columnSpanFull(),
+                Forms\Components\Textarea::make('vision')
+                    ->required()
+                    ->label('Visi Perusahaan')
+                    ->columnSpanFull(),
+                Forms\Components\Textarea::make('mission')
+                    ->required()
+                    ->label('Misi Perusahaan')
+                    ->columnSpanFull(),
+                Forms\Components\Repeater::make('history')
+                    ->label('Sejarah Perjalanan Perusahaan')
+                    ->schema([
+                        Forms\Components\TextInput::make('year')
+                            ->required()
+                            ->placeholder('Contoh: Tahun 2010'),
+                        Forms\Components\Textarea::make('description')
+                            ->required()
+                            ->placeholder('Deskripsi peristiwa...'),
+                    ])
+                    ->columnSpanFull()
+                    ->helperText('Tambahkan poin sejarah/timeline perusahaan di sini.'),
                 Forms\Components\Hidden::make('user_id')
                     ->default(fn () => auth()->id()),
             ]);
