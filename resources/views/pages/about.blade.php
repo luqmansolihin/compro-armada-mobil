@@ -42,7 +42,7 @@
     <!-- Vision & Mission -->
     <section class="section" style="background-color: #f1f5f9; max-width: 100%;">
         <div style="max-width: 1280px; margin: 0 auto;">
-            <div class="grid-2">
+            <div class="grid-2" style="align-items: stretch;">
                 <div class="service-icon-box" style="text-align: left; padding: 3rem;">
                     <div class="service-icon-wrapper" style="margin-left: 0;"><i class="fa-solid fa-eye"></i></div>
                     <h3 style="font-size: 1.75rem; margin-bottom: 1rem; color: var(--color-secondary);">Visi Kami</h3>
