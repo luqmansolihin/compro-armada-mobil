@@ -194,4 +194,92 @@ class CompanyProfileController extends Controller
         return response()->view('sitemap', compact('blogs', 'promotions', 'products'))
             ->header('Content-Type', 'text/xml');
     }
+
+    /**
+     * Search API
+     */
+    public function searchApi(Request $request)
+    {
+        $q = $request->query('q');
+        if (empty($q) || strlen($q) < 2) {
+            return response()->json([
+                'products' => [],
+                'branches' => [],
+                'blogs' => [],
+                'promotions' => [],
+                'careers' => []
+            ]);
+        }
+
+        $products = Product::where('status', true)
+            ->where(function($query) use ($q) {
+                $query->where('title', 'like', "%{$q}%")
+                      ->orWhere('content', 'like', "%{$q}%");
+            })
+            ->limit(5)
+            ->get(['title', 'slug', 'image'])
+            ->map(function($item) {
+                $item->url = route('product.detail', $item->slug);
+                $item->image_url = filter_var($item->image, FILTER_VALIDATE_URL) ? $item->image : asset('storage/' . $item->image);
+                return $item;
+            });
+
+        $branches = Outlet::where(function($query) use ($q) {
+                $query->where('name', 'like', "%{$q}%")
+                      ->orWhere('address', 'like', "%{$q}%");
+            })
+            ->limit(5)
+            ->get(['name', 'address'])
+            ->map(function($item) {
+                $item->url = route('branch') . '?q=' . urlencode($item->name);
+                return $item;
+            });
+
+        $blogs = Blog::where('status', true)
+            ->where(function($query) use ($q) {
+                $query->where('title', 'like', "%{$q}%")
+                      ->orWhere('content', 'like', "%{$q}%");
+            })
+            ->limit(5)
+            ->get(['title', 'slug', 'image'])
+            ->map(function($item) {
+                $item->url = route('blog.detail', $item->slug);
+                $item->image_url = filter_var($item->image, FILTER_VALIDATE_URL) ? $item->image : asset('storage/' . $item->image);
+                return $item;
+            });
+
+        $promotions = Promotion::where('status', true)
+            ->where(function($query) use ($q) {
+                $query->where('title', 'like', "%{$q}%")
+                      ->orWhere('content', 'like', "%{$q}%");
+            })
+            ->limit(5)
+            ->get(['title', 'slug', 'image'])
+            ->map(function($item) {
+                $item->url = route('promotion.detail', $item->slug);
+                $item->image_url = filter_var($item->image, FILTER_VALIDATE_URL) ? $item->image : asset('storage/' . $item->image);
+                return $item;
+            });
+
+        $careers = Career::where('status', true)
+            ->where(function($query) use ($q) {
+                $query->where('name', 'like', "%{$q}%")
+                      ->orWhere('description', 'like', "%{$q}%");
+            })
+            ->limit(5)
+            ->get(['name', 'slug'])
+            ->map(function($item) {
+                $item->url = route('career.detail', $item->slug);
+                $item->title = $item->name; // Map to title for JS uniformity
+                return $item;
+            });
+
+        return response()->json([
+            'products' => $products,
+            'branches' => $branches,
+            'blogs' => $blogs,
+            'promotions' => $promotions,
+            'careers' => $careers
+        ]);
+    }
 }

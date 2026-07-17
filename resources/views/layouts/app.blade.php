@@ -90,6 +90,11 @@
                 <li><a href="{{ route('promotion') }}" class="{{ Route::currentRouteName() == 'promotion' || Route::currentRouteName() == 'promotion.detail' ? 'active' : '' }}">Promotion</a></li>
                 <li><a href="{{ route('career') }}" class="{{ Route::currentRouteName() == 'career' ? 'active' : '' }}">Career</a></li>
                 <li><a href="{{ route('purna-jual') }}" class="{{ Route::currentRouteName() == 'purna-jual' ? 'active' : '' }}">Purna Jual</a></li>
+                <li class="search-nav-item">
+                    <button id="globalSearchBtn" aria-label="Search" style="background: none; border: none; color: var(--color-text); font-size: 1.1rem; cursor: pointer; padding: 0.5rem; display: flex; align-items: center; justify-content: center; transition: color 0.2s ease;" onmouseover="this.style.color='var(--color-primary)';" onmouseout="this.style.color='var(--color-text)';">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </li>
             </ul>
         </nav>
     </header>
@@ -245,6 +250,59 @@
         <i class="fa-solid fa-arrow-up"></i>
     </button>
 
+    <!-- Global Search Overlay -->
+    <div id="searchOverlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 10000; opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; flex-direction: column; align-items: center; padding: 6rem 2rem 2rem 2rem; overflow-y: auto;">
+        <!-- Close button -->
+        <button id="closeSearchBtn" aria-label="Close search" style="position: absolute; top: 2rem; right: 2rem; background: rgba(255, 255, 255, 0.08); border: none; color: white; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; transition: all 0.2s ease;" onmouseover="this.style.backgroundColor='rgba(255,255,255,0.15)'; this.style.transform='scale(1.05)';" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.08)'; this.style.transform='scale(1)';">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div style="width: 100%; max-width: 750px; display: flex; flex-direction: column; gap: 2rem;">
+            <!-- Title -->
+            <div style="text-align: center; color: white; margin-bottom: 0.5rem;">
+                <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">Cari di Armada Mobil</h2>
+                <p style="color: #94a3b8; font-size: 1rem;">Temukan unit kendaraan, promo, cabang, berita, atau info karir teraktif.</p>
+            </div>
+
+            <!-- Input wrapper -->
+            <div style="position: relative; width: 100%;">
+                <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 1.5rem; top: 50%; transform: translateY(-50%); color: #94a3b8; font-size: 1.25rem;"></i>
+                <input type="text" id="searchInput" placeholder="Ketik kata kunci pencarian..." autocomplete="off" style="width: 100%; padding: 1.25rem 1.5rem 1.25rem 3.5rem; font-size: 1.15rem; font-family: inherit; border-radius: 50px; border: 2px solid rgba(255, 255, 255, 0.15); background-color: rgba(255, 255, 255, 0.05); color: white; outline: none; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);" onfocus="this.style.borderColor='var(--color-primary)'; this.style.backgroundColor='rgba(255, 255, 255, 0.08)';" onblur="this.style.borderColor='rgba(255, 255, 255, 0.15)'; this.style.backgroundColor='rgba(255, 255, 255, 0.05)';">
+                <!-- Clear Button -->
+                <button id="clearSearchBtn" style="position: absolute; right: 1.5rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: #94a3b8; font-size: 1.1rem; cursor: pointer; display: none; padding: 0.25rem;">
+                    <i class="fa-solid fa-circle-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div id="searchSpinner" style="display: none; justify-content: center; align-items: center; padding: 2rem;">
+                <i class="fa-solid fa-circle-notch fa-spin" style="color: var(--color-primary); font-size: 2rem;"></i>
+            </div>
+
+            <!-- Results container -->
+            <div id="searchResults" class="custom-search-scrollbar" style="display: flex; flex-direction: column; gap: 1.5rem; max-height: 60vh; overflow-y: auto; padding-right: 0.5rem;">
+                <!-- Results will be injected dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .custom-search-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-search-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+        }
+        .custom-search-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+        }
+        .custom-search-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+    </style>
+
     <!-- JS Scripts -->
     <script>
         document.getElementById('mobile-menu-btn').addEventListener('click', function() {
@@ -270,6 +328,159 @@
                 behavior: 'smooth'
             });
         });
+
+        // Global Search Dialog
+        const searchOverlay = document.getElementById('searchOverlay');
+        const globalSearchBtn = document.getElementById('globalSearchBtn');
+        const closeSearchBtn = document.getElementById('closeSearchBtn');
+        const searchInput = document.getElementById('searchInput');
+        const clearSearchBtn = document.getElementById('clearSearchBtn');
+        const searchSpinner = document.getElementById('searchSpinner');
+        const searchResults = document.getElementById('searchResults');
+        
+        let searchTimeout = null;
+
+        // Open search
+        globalSearchBtn.addEventListener('click', function() {
+            searchOverlay.style.opacity = '1';
+            searchOverlay.style.visibility = 'visible';
+            document.body.style.overflow = 'hidden'; // prevent background scrolling
+            setTimeout(() => searchInput.focus(), 150);
+        });
+
+        // Close search
+        function closeSearch() {
+            searchOverlay.style.opacity = '0';
+            searchOverlay.style.visibility = 'hidden';
+            document.body.style.overflow = '';
+            searchInput.value = '';
+            searchResults.innerHTML = '';
+            clearSearchBtn.style.display = 'none';
+        }
+
+        closeSearchBtn.addEventListener('click', closeSearch);
+
+        // Close on ESC key
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && searchOverlay.style.visibility === 'visible') {
+                closeSearch();
+            }
+        });
+
+        // Close on clicking outside search box content
+        searchOverlay.addEventListener('click', function(e) {
+            if (e.target === searchOverlay) {
+                closeSearch();
+            }
+        });
+
+        // Clear input
+        clearSearchBtn.addEventListener('click', function() {
+            searchInput.value = '';
+            searchResults.innerHTML = '';
+            clearSearchBtn.style.display = 'none';
+            searchInput.focus();
+        });
+
+        // Search typing listener
+        searchInput.addEventListener('input', function() {
+            const query = this.value.trim();
+            
+            if (query.length > 0) {
+                clearSearchBtn.style.display = 'block';
+            } else {
+                clearSearchBtn.style.display = 'none';
+            }
+
+            if (query.length < 2) {
+                searchResults.innerHTML = '';
+                return;
+            }
+
+            // Debounce search requests
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                performSearch(query);
+            }, 300);
+        });
+
+        function performSearch(query) {
+            searchSpinner.style.display = 'flex';
+            searchResults.innerHTML = '';
+
+            fetch(`/search/api?q=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    searchSpinner.style.display = 'none';
+                    renderResults(data, query);
+                })
+                .catch(error => {
+                    console.error('Error during search:', error);
+                    searchSpinner.style.display = 'none';
+                    searchResults.innerHTML = `<div style="color: #ef4444; text-align: center; padding: 2rem;">Terjadi kesalahan saat memproses pencarian.</div>`;
+                });
+        }
+
+        function renderResults(data, query) {
+            let html = '';
+            let hasResults = false;
+
+            const categories = [
+                { key: 'products', name: 'Produk Kendaraan', icon: 'fa-car' },
+                { key: 'branches', name: 'Cabang & Bengkel', icon: 'fa-store' },
+                { key: 'promotions', name: 'Promo Terbaru', icon: 'fa-tags' },
+                { key: 'blogs', name: 'Artikel & Blogs', icon: 'fa-newspaper' },
+                { key: 'careers', name: 'Lowongan Karir', icon: 'fa-briefcase' }
+            ];
+
+            categories.forEach(cat => {
+                const items = data[cat.key];
+                if (items && items.length > 0) {
+                    hasResults = true;
+                    html += `
+                        <div style="background-color: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 1.25rem;">
+                            <h4 style="color: var(--color-primary); font-size: 0.95rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; letter-spacing: 0.5px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 0.5rem;">
+                                <i class="fa-solid ${cat.icon}"></i> ${cat.name}
+                            </h4>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    `;
+
+                    items.forEach(item => {
+                        const title = item.title || item.name;
+                        const sub = item.address ? item.address : '';
+                        const img = item.image_url ? `<img src="${item.image_url}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(255, 255, 255, 0.1);" alt="">` : '';
+
+                        html += `
+                            <a href="${item.url}" style="display: flex; align-items: center; gap: 1rem; padding: 0.65rem; border-radius: 8px; text-decoration: none; color: white; transition: all 0.2s ease;" onmouseover="this.style.backgroundColor='rgba(255, 255, 255, 0.05)';" onmouseout="this.style.backgroundColor='transparent';">
+                                ${img}
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; font-size: 0.95rem; line-height: 1.4;">${title}</div>
+                                    ${sub ? `<div style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.15rem;">${sub}</div>` : ''}
+                                </div>
+                                <i class="fa-solid fa-chevron-right" style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.3);"></i>
+                            </a>
+                        `;
+                    });
+
+                    html += `
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            if (!hasResults) {
+                html = `
+                    <div style="text-align: center; padding: 4rem 2rem; color: #94a3b8;">
+                        <i class="fa-solid fa-face-frown" style="font-size: 3rem; color: rgba(255, 255, 255, 0.1); margin-bottom: 1rem; display: block;"></i>
+                        <p style="font-size: 1.1rem; font-weight: 500;">Pencarian untuk "${query}" tidak ditemukan</p>
+                        <p style="font-size: 0.9rem; color: #64748b; margin-top: 0.25rem;">Coba masukkan kata kunci yang berbeda.</p>
+                    </div>
+                `;
+            }
+
+            searchResults.innerHTML = html;
+        }
     </script>
     @yield('scripts')
 </body>

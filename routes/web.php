@@ -29,4 +29,5 @@ Route::get('/career/{slug}', [CompanyProfileController::class, 'careerDetail'])-
 Route::get('/purna-jual', [CompanyProfileController::class, 'purnaJual'])->name('purna-jual');
 Route::get('/products/{slug}', [CompanyProfileController::class, 'productDetail'])->name('product.detail');
 Route::get('/sitemap.xml', [CompanyProfileController::class, 'sitemap'])->name('sitemap');
+Route::get('/search/api', [CompanyProfileController::class, 'searchApi'])->name('search.api');
 
