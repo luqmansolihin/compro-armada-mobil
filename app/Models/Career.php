@@ -23,6 +23,7 @@ class Career extends Model
         'registration_to',
         'minimal_age',
         'maximal_age',
+        'recruiter_email',
         'status'
     ];
 

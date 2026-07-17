@@ -58,7 +58,7 @@
                 </div>
                 
                 @php
-                    $emailContact = $contacts->where('type', 'Email')->first()?->contact ?? 'recruitment@armada-mobil.co.id';
+                    $emailContact = $career->recruiter_email ?: ($contacts->where('type', 'Email')->first()?->contact ?? 'recruitment@armada-mobil.co.id');
                 @endphp
                 <a href="mailto:{{ $emailContact }}?subject=Lamaran%20Pekerjaan%20-%20{{ urlencode($career->name) }}" class="btn-primary">
                     <i class="fa-regular fa-envelope"></i> Kirim CV Sekarang

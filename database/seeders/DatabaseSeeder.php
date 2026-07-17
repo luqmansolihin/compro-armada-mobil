@@ -126,6 +126,7 @@ class DatabaseSeeder extends Seeder
             'registration_to' => now()->addMonths(1),
             'minimal_age' => 20,
             'maximal_age' => 35,
+            'recruiter_email' => 'recruitment@armada-mobil.co.id',
             'status' => true,
         ]);
         $salesJob->cities()->attach([$jakarta->id, $surabaya->id]);
@@ -140,6 +141,7 @@ class DatabaseSeeder extends Seeder
             'registration_to' => now()->addWeeks(2),
             'minimal_age' => 19,
             'maximal_age' => 30,
+            'recruiter_email' => 'recruitment.tech@armada-mobil.co.id',
             'status' => true,
         ]);
         $mechanicJob->cities()->attach([$jakarta->id, $bandung->id]);

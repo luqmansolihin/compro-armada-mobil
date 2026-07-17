@@ -44,6 +44,12 @@ class CareerResource extends Resource
                         Forms\Components\TextInput::make('maximal_age')
                             ->numeric()
                             ->required(),
+                        Forms\Components\TextInput::make('recruiter_email')
+                            ->email()
+                            ->required()
+                            ->label('Email Recruiter')
+                            ->placeholder('e.g. recruitment@armada-mobil.co.id')
+                            ->maxLength(255),
                         Forms\Components\Select::make('cities')
                             ->multiple()
                             ->relationship(
