@@ -103,8 +103,39 @@
     <footer>
         <div class="footer-container">
             <div class="footer-col">
-                <h4>ARMADA MOBIL</h4>
-                <p>Armada Mobil adalah dealer resmi otomotif terpercaya untuk penjualan dan purna jual kendaraan Isuzu dan Daihatsu dengan kualitas layanan bintang lima.</p>
+                <h4>Hubungi Kami</h4>
+                <ul class="footer-contact-list">
+                    @php 
+                        $phone = isset($contacts) ? ($contacts->where('type', 'Phone')->first()?->contact ?? '+62 21-1234567') : '+62 21-1234567';
+                        $wa = isset($contacts) ? ($contacts->where('type', 'WhatsApp')->first()?->contact ?? '+62 812-3456-7890') : '+62 812-3456-7890';
+                        $email = isset($contacts) ? ($contacts->where('type', 'Email')->first()?->contact ?? 'info@armada-mobil.co.id') : 'info@armada-mobil.co.id';
+                        $ig = isset($contacts) ? ($contacts->where('type', 'Instagram')->first()?->contact ?? '@armada_mobil') : '@armada_mobil';
+                        $globalHours = \App\Models\OperationalHour::all();
+                    @endphp
+                    <li><i class="fa-solid fa-phone"></i> {{ $phone }}</li>
+                    <li><i class="fa-brands fa-whatsapp"></i> {{ $wa }}</li>
+                    <li><i class="fa-solid fa-envelope"></i> {{ $email }}</li>
+                    <li><i class="fa-brands fa-instagram"></i> {{ $ig }}</li>
+                </ul>
+
+                @if($globalHours->isNotEmpty())
+                    <h4 style="margin-top: 1.5rem; font-size: 1.2rem; border-bottom: 2px solid var(--color-primary); padding-bottom: 0.5rem; display: inline-block;">Jam Kerja Head Office</h4>
+                    <ul class="footer-contact-list" style="margin-top: 0.5rem;">
+                        @foreach($globalHours as $hour)
+                            <li>
+                                <i class="fa-regular fa-clock" style="color: var(--color-primary);"></i>
+                                <span>
+                                    @if(strcasecmp($hour->day_from, $hour->day_to) === 0)
+                                        {{ $hour->day_from }}
+                                    @else
+                                        {{ $hour->day_from }} - {{ $hour->day_to }}
+                                    @endif:
+                                </span>
+                                <strong>{{ date('H:i', strtotime($hour->open_time)) }} - {{ date('H:i', strtotime($hour->close_time)) }}</strong>
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
             </div>
             
             <div class="footer-col">
@@ -128,19 +159,11 @@
             </div>
 
             <div class="footer-col">
-                <h4>Hubungi Kami</h4>
-                <ul class="footer-contact-list">
-                    @php 
-                        $phone = $contacts->where('type', 'Phone')->first()?->contact ?? '+62 21-1234567';
-                        $wa = $contacts->where('type', 'WhatsApp')->first()?->contact ?? '+62 812-3456-7890';
-                        $email = $contacts->where('type', 'Email')->first()?->contact ?? 'info@armada-mobil.co.id';
-                        $ig = $contacts->where('type', 'Instagram')->first()?->contact ?? '@armada_mobil';
-                    @endphp
-                    <li><i class="fa-solid fa-phone"></i> {{ $phone }}</li>
-                    <li><i class="fa-brands fa-whatsapp"></i> {{ $wa }}</li>
-                    <li><i class="fa-solid fa-envelope"></i> {{ $email }}</li>
-                    <li><i class="fa-brands fa-instagram"></i> {{ $ig }}</li>
-                </ul>
+                <h4>ARMADA MOBIL</h4>
+                @php
+                    $footerProfile = \App\Models\Profile::first();
+                @endphp
+                <p>{{ $footerProfile?->short_description ?? 'Armada Mobil adalah dealer resmi otomotif terpercaya untuk penjualan dan purna jual kendaraan Isuzu dan Daihatsu dengan kualitas layanan bintang lima.' }}</p>
             </div>
         </div>
         
