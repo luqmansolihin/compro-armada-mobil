@@ -25,6 +25,7 @@ Route::get('/blogs/{slug}', [CompanyProfileController::class, 'blogDetail'])->na
 Route::get('/promotion', [CompanyProfileController::class, 'promotion'])->name('promotion');
 Route::get('/promotion/{slug}', [CompanyProfileController::class, 'promotionDetail'])->name('promotion.detail');
 Route::get('/career', [CompanyProfileController::class, 'career'])->name('career');
+Route::get('/career/{slug}', [CompanyProfileController::class, 'careerDetail'])->name('career.detail');
 Route::get('/purna-jual', [CompanyProfileController::class, 'purnaJual'])->name('purna-jual');
 Route::get('/products/{slug}', [CompanyProfileController::class, 'productDetail'])->name('product.detail');
 Route::get('/sitemap.xml', [CompanyProfileController::class, 'sitemap'])->name('sitemap');

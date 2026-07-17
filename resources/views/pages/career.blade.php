@@ -45,24 +45,12 @@
                     </div>
 
                     <div class="career-desc">
-                        <p style="font-weight: 600; color: var(--color-secondary); margin-bottom: 0.5rem;">Deskripsi Pekerjaan:</p>
-                        <p style="margin-bottom: 1.5rem; line-height: 1.6;">{{ $career->description }}</p>
-                        
-                        <p style="font-weight: 600; color: var(--color-secondary); margin-bottom: 0.5rem;">Persyaratan:</p>
-                        <div style="line-height: 1.6; margin-bottom: 2rem; padding-left: 1.25rem;">
-                            {!! $career->requirement !!}
-                        </div>
+                        <p style="line-height: 1.6; color: var(--color-text-muted); margin-bottom: 0.5rem;">{{ Str::limit($career->description, 180) }}</p>
                     </div>
 
-                    <div style="border-top: 1px solid var(--color-border); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-                        <!-- Share button -->
-                        @include('components.share-buttons', ['title' => 'Lowongan Kerja ' . $career->name, 'style' => 'margin-top: 0; border-top: none; padding-top: 0;'])
-
-                        @php
-                            $emailContact = $contacts->where('type', 'Email')->first()?->contact ?? 'recruitment@armada-mobil.co.id';
-                        @endphp
-                        <a href="mailto:{{ $emailContact }}?subject=Lamaran%20Pekerjaan%20-%20{{ urlencode($career->name) }}" class="btn-primary">
-                            <i class="fa-regular fa-envelope"></i> Kirim CV Sekarang
+                    <div style="border-top: 1px solid var(--color-border); padding-top: 1.5rem; display: flex; justify-content: flex-end;">
+                        <a href="{{ route('career.detail', $career->slug) }}" class="btn-primary">
+                            Lihat Detail & Lamar <i class="fa-solid fa-arrow-right" style="margin-left: 0.25rem;"></i>
                         </a>
                     </div>
                 </div>

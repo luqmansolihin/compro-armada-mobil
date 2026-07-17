@@ -147,6 +147,17 @@ class CompanyProfileController extends Controller
         return view('pages.career', compact('careers', 'contacts'));
     }
 
+    public function careerDetail($slug)
+    {
+        $career = Career::with('cities')
+            ->where('slug', $slug)
+            ->where('status', true)
+            ->firstOrFail();
+        $contacts = $this->getContacts();
+
+        return view('pages.career-detail', compact('career', 'contacts'));
+    }
+
     /**
      * Purna Jual (Aftersales) Page
      */
