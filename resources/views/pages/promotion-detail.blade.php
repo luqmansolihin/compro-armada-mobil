@@ -26,6 +26,8 @@
 
         <div class="detail-body">
             {!! $promotion->content !!}
+
+            @include('components.share-buttons', ['title' => $promotion->title])
             
             <div style="margin-top: 3rem; padding: 2rem; background-color: #f1f5f9; border-radius: var(--radius-md); border-left: 5px solid var(--color-primary); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;">
                 <div>

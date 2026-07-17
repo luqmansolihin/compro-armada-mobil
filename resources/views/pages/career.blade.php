@@ -54,7 +54,10 @@
                         </div>
                     </div>
 
-                    <div style="border-top: 1px solid var(--color-border); padding-top: 1.5rem; display: flex; justify-content: flex-end;">
+                    <div style="border-top: 1px solid var(--color-border); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                        <!-- Share button -->
+                        @include('components.share-buttons', ['title' => 'Lowongan Kerja ' . $career->name, 'style' => 'margin-top: 0; border-top: none; padding-top: 0;'])
+
                         @php
                             $emailContact = $contacts->where('type', 'Email')->first()?->contact ?? 'recruitment@armada-mobil.co.id';
                         @endphp

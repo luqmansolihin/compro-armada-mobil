@@ -26,6 +26,8 @@
 
         <div class="detail-body">
             {!! $blog->content !!}
+
+            @include('components.share-buttons', ['title' => $blog->title])
         </div>
     </article>
 @endsection

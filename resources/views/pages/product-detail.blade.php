@@ -43,6 +43,8 @@
             <div>
                 {!! $product->content !!}
             </div>
+
+            @include('components.share-buttons', ['title' => $product->title])
             
             <!-- WhatsApp CTA Section -->
             <div style="margin-top: 3rem; padding: 2rem; background-color: #f1f5f9; border-radius: var(--radius-md); border-left: 5px solid {{ $isIsuzu ? 'var(--color-primary)' : '#2563eb' }}; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem;">

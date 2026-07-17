@@ -114,6 +114,9 @@
                                 </div>
                             </div>
 
+                            <!-- Share branch -->
+                            @include('components.share-buttons', ['title' => $outlet->name, 'style' => 'margin-top: 1.5rem; border-top: 1px solid var(--color-border); padding-top: 1rem; margin-bottom: 1rem;'])
+
                             <div class="branch-actions">
                                 <a href="{{ $outlet->url_address }}" target="_blank" class="btn-primary">
                                     <i class="fa-solid fa-route"></i> Petunjuk Arah
