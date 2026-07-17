@@ -16,4 +16,9 @@ class City extends Model
     {
         return $this->belongsToMany(Career::class, 'career_placements');
     }
+
+    public function outlets(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Outlet::class);
+    }
 }

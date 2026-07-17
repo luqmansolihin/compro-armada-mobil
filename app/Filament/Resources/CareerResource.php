@@ -46,7 +46,11 @@ class CareerResource extends Resource
                             ->required(),
                         Forms\Components\Select::make('cities')
                             ->multiple()
-                            ->relationship('cities', 'name')
+                            ->relationship(
+                                name: 'cities',
+                                titleAttribute: 'name',
+                                modifyQueryUsing: fn (Builder $query) => $query->has('outlets')
+                            )
                             ->preload(),
                         Forms\Components\Toggle::make('status')
                             ->default(true)

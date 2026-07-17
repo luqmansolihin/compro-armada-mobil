@@ -29,6 +29,12 @@ class OutletResource extends Resource
                         Forms\Components\TextInput::make('name')
                             ->required()
                             ->maxLength(255),
+                        Forms\Components\Select::make('city_id')
+                            ->relationship('city', 'name')
+                            ->label('Kota / Wilayah')
+                            ->required()
+                            ->preload()
+                            ->searchable(),
                         Forms\Components\Select::make('product_brand_id')
                             ->relationship('brand', 'name')
                             ->label('Brand')
@@ -99,6 +105,10 @@ class OutletResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('city.name')
+                    ->label('Kota / Wilayah')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('brand.name')
                     ->label('Brand')
                     ->badge()
