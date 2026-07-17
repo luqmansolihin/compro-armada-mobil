@@ -240,11 +240,35 @@
         </div>
     </footer>
 
+    <!-- Back to Top Button -->
+    <button id="backToTopBtn" title="Kembali ke atas" style="position: fixed; bottom: 2.5rem; right: 2.5rem; width: 44px; height: 44px; border-radius: 50%; background-color: var(--color-primary); color: white; border: none; outline: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.35); opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 9999;" onmouseover="this.style.transform='scale(1.1)'; this.style.backgroundColor='#b91c1c'; this.style.boxShadow='0 6px 16px rgba(220, 38, 38, 0.5)';" onmouseout="this.style.transform='scale(1)'; this.style.backgroundColor='var(--color-primary)'; this.style.boxShadow='0 4px 12px rgba(220, 38, 38, 0.35)';">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
     <!-- JS Scripts -->
     <script>
         document.getElementById('mobile-menu-btn').addEventListener('click', function() {
             document.getElementById('nav-links').classList.toggle('active');
             this.classList.toggle('active');
+        });
+
+        // Back to Top Button Scroll & Click Handler
+        const backToTopBtn = document.getElementById('backToTopBtn');
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.style.opacity = '1';
+                backToTopBtn.style.visibility = 'visible';
+            } else {
+                backToTopBtn.style.opacity = '0';
+                backToTopBtn.style.visibility = 'hidden';
+            }
+        });
+        
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         });
     </script>
     @yield('scripts')
