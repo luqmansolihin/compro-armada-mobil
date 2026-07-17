@@ -688,6 +688,11 @@ header {
 }
 
 /* Branches Page */
+.branch-col {
+    display: flex;
+    flex-direction: column;
+}
+
 .branch-card {
     background-color: var(--color-surface);
     border-radius: var(--radius-lg);
@@ -695,11 +700,13 @@ header {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .branch-map {
     height: 250px;
     width: 100%;
+    flex-shrink: 0;
 }
 
 .branch-map iframe {
@@ -710,10 +717,14 @@ header {
 
 .branch-content {
     padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .branch-actions {
-    margin-top: 2rem;
+    margin-top: auto;
+    padding-top: 1.5rem;
     display: flex;
     gap: 1rem;
 }

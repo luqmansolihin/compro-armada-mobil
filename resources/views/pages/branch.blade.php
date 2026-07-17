@@ -34,7 +34,7 @@
             </button>
         </div>
 
-        <div class="grid-2">
+        <div class="grid-2" style="align-items: stretch;">
             @forelse($outlets as $outlet)
                 <div class="branch-col" data-brand="{{ $outlet->brand?->name ?? '' }}" style="transition: all 0.3s ease; width: 100%;">
                     <div class="branch-card">
