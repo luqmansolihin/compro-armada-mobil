@@ -107,9 +107,15 @@
                 <ul class="footer-contact-list">
                     @php 
                         $phones = isset($contacts) ? $contacts->where('type', 'Phone') : collect();
-                        $was = isset($contacts) ? $contacts->where('type', 'WhatsApp') : collect();
                         $emails = isset($contacts) ? $contacts->where('type', 'Email') : collect();
+                        
+                        $was = isset($contacts) ? $contacts->where('type', 'WhatsApp') : collect();
                         $igs = isset($contacts) ? $contacts->where('type', 'Instagram') : collect();
+                        $fbs = isset($contacts) ? $contacts->where('type', 'Facebook') : collect();
+                        $twitters = isset($contacts) ? $contacts->where('type', 'Twitter') : collect();
+                        $youtubes = isset($contacts) ? $contacts->where('type', 'YouTube') : collect();
+                        $tiktoks = isset($contacts) ? $contacts->where('type', 'TikTok') : collect();
+                        
                         $globalHours = \App\Models\OperationalHour::all();
                     @endphp
 
@@ -121,30 +127,67 @@
                         <li><i class="fa-solid fa-phone"></i> +62 21-1234567</li>
                     @endif
 
-                    @if($was->isNotEmpty())
-                        @foreach($was as $w)
-                            <li><i class="fa-brands fa-whatsapp"></i> {{ $w->contact }}</li>
-                        @endforeach
-                    @else
-                        <li><i class="fa-brands fa-whatsapp"></i> +62 812-3456-7890</li>
-                    @endif
-
                     @if($emails->isNotEmpty())
                         @foreach($emails as $e)
-                            <li><i class="fa-solid fa-envelope"></i> {{ $e->contact }}</li>
+                            <li><i class="fa-solid fa-envelope"></i> <a href="mailto:{{ $e->contact }}" style="color: inherit; text-decoration: none;">{{ $e->contact }}</a></li>
                         @endforeach
                     @else
                         <li><i class="fa-solid fa-envelope"></i> info@armada-mobil.co.id</li>
                     @endif
-
-                    @if($igs->isNotEmpty())
-                        @foreach($igs as $i)
-                            <li><i class="fa-brands fa-instagram"></i> {{ $i->contact }}</li>
-                        @endforeach
-                    @else
-                        <li><i class="fa-brands fa-instagram"></i> @armada_mobil</li>
-                    @endif
                 </ul>
+
+                {{-- Horizontal Social Media Icons --}}
+                <div style="display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                    @forelse($was as $w)
+                        @php $wClean = str_replace(['+', '-', ' ', '@'], '', $w->contact); @endphp
+                        <a href="https://wa.me/{{ $wClean }}" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background-color: rgba(255,255,255,0.08); color: white; transition: background-color 0.2s ease, transform 0.2s ease;" onmouseover="this.style.backgroundColor='#25d366'; this.style.transform='scale(1.1)';" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.08)'; this.style.transform='scale(1)';" title="Hubungi WhatsApp">
+                            <i class="fa-brands fa-whatsapp" style="font-size: 0.95rem;"></i>
+                        </a>
+                    @empty
+                        <a href="https://wa.me/6281234567890" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background-color: rgba(255,255,255,0.08); color: white; transition: background-color 0.2s ease, transform 0.2s ease;" onmouseover="this.style.backgroundColor='#25d366'; this.style.transform='scale(1.1)';" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.08)'; this.style.transform='scale(1)';" title="Hubungi WhatsApp">
+                            <i class="fa-brands fa-whatsapp" style="font-size: 0.95rem;"></i>
+                        </a>
+                    @endforelse
+
+                    @forelse($igs as $i)
+                        @php $igHandle = ltrim($i->contact, '@'); @endphp
+                        <a href="https://instagram.com/{{ $igHandle }}" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background-color: rgba(255,255,255,0.08); color: white; transition: background-color 0.2s ease, transform 0.2s ease;" onmouseover="this.style.backgroundColor='#e1306c'; this.style.transform='scale(1.1)';" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.08)'; this.style.transform='scale(1)';" title="Instagram Resmi">
+                            <i class="fa-brands fa-instagram" style="font-size: 0.95rem;"></i>
+                        </a>
+                    @empty
+                        <a href="https://instagram.com/armada_mobil" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background-color: rgba(255,255,255,0.08); color: white; transition: background-color 0.2s ease, transform 0.2s ease;" onmouseover="this.style.backgroundColor='#e1306c'; this.style.transform='scale(1.1)';" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.08)'; this.style.transform='scale(1)';" title="Instagram Resmi">
+                            <i class="fa-brands fa-instagram" style="font-size: 0.95rem;"></i>
+                        </a>
+                    @endforelse
+
+                    @foreach($fbs as $fb)
+                        @php $fbUrl = filter_var($fb->contact, FILTER_VALIDATE_URL) ? $fb->contact : 'https://facebook.com/' . $fb->contact; @endphp
+                        <a href="{{ $fbUrl }}" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background-color: rgba(255,255,255,0.08); color: white; transition: background-color 0.2s ease, transform 0.2s ease;" onmouseover="this.style.backgroundColor='#1877f2'; this.style.transform='scale(1.1)';" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.08)'; this.style.transform='scale(1)';" title="Facebook Resmi">
+                            <i class="fa-brands fa-facebook-f" style="font-size: 0.9rem;"></i>
+                        </a>
+                    @endforeach
+
+                    @foreach($twitters as $t)
+                        @php $tUrl = filter_var($t->contact, FILTER_VALIDATE_URL) ? $t->contact : 'https://twitter.com/' . ltrim($t->contact, '@'); @endphp
+                        <a href="{{ $tUrl }}" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background-color: rgba(255,255,255,0.08); color: white; transition: background-color 0.2s ease, transform 0.2s ease;" onmouseover="this.style.backgroundColor='#000000'; this.style.transform='scale(1.1)';" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.08)'; this.style.transform='scale(1)';" title="Twitter / X Resmi">
+                            <i class="fa-brands fa-x-twitter" style="font-size: 0.85rem;"></i>
+                        </a>
+                    @endforeach
+
+                    @foreach($youtubes as $yt)
+                        @php $ytUrl = filter_var($yt->contact, FILTER_VALIDATE_URL) ? $yt->contact : 'https://youtube.com/' . $yt->contact; @endphp
+                        <a href="{{ $ytUrl }}" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background-color: rgba(255,255,255,0.08); color: white; transition: background-color 0.2s ease, transform 0.2s ease;" onmouseover="this.style.backgroundColor='#ff0000'; this.style.transform='scale(1.1)';" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.08)'; this.style.transform='scale(1)';" title="YouTube Resmi">
+                            <i class="fa-brands fa-youtube" style="font-size: 0.9rem;"></i>
+                        </a>
+                    @endforeach
+
+                    @foreach($tiktoks as $tt)
+                        @php $ttUrl = filter_var($tt->contact, FILTER_VALIDATE_URL) ? $tt->contact : 'https://tiktok.com/@' . ltrim($tt->contact, '@'); @endphp
+                        <a href="{{ $ttUrl }}" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background-color: rgba(255,255,255,0.08); color: white; transition: background-color 0.2s ease, transform 0.2s ease;" onmouseover="this.style.backgroundColor='#010101'; this.style.transform='scale(1.1)';" onmouseout="this.style.backgroundColor='rgba(255,255,255,0.08)'; this.style.transform='scale(1)';" title="TikTok Resmi">
+                            <i class="fa-brands fa-tiktok" style="font-size: 0.9rem;"></i>
+                        </a>
+                    @endforeach
+                </div>
 
                 @if($globalHours->isNotEmpty())
                     <h4 style="margin-top: 1.5rem; font-size: 1.2rem; border-bottom: 2px solid var(--color-primary); padding-bottom: 0.5rem; display: inline-block;">Jam Kerja Head Office</h4>
