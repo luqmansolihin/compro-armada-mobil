@@ -80,29 +80,29 @@
             <p>Rencanakan kunjungan servis Anda lebih awal. Lengkapi form berikut untuk reservasi antrean bengkel.</p>
         </div>
 
-        <div style="max-width: 650px; margin: 0 auto; background-color: var(--color-surface); border: 1px solid var(--color-border); padding: 3rem; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);">
+        <div class="booking-card">
             <form id="bookingForm">
                 <div style="display: flex; flex-direction: column; gap: 1.25rem;">
                     
                     <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                         <label for="nama" style="font-weight: 600; font-size: 0.9rem; color: var(--color-secondary);">Nama Lengkap</label>
-                        <input type="text" id="nama" required style="padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); outline: none; font-family: inherit;" placeholder="Masukkan nama Anda">
+                        <input type="text" id="nama" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); outline: none; font-family: inherit;" placeholder="Masukkan nama Anda">
                     </div>
 
                     <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                         <label for="phone" style="font-weight: 600; font-size: 0.9rem; color: var(--color-secondary);">Nomor WhatsApp</label>
-                        <input type="tel" id="phone" required style="padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); outline: none; font-family: inherit;" placeholder="e.g. 081234567890">
+                        <input type="tel" id="phone" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); outline: none; font-family: inherit;" placeholder="e.g. 081234567890">
                     </div>
 
                     <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                         <label for="mobil" style="font-weight: 600; font-size: 0.9rem; color: var(--color-secondary);">Tipe Kendaraan</label>
-                        <input type="text" id="mobil" required style="padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); outline: none; font-family: inherit;" placeholder="e.g. Daihatsu Xenia / Isuzu D-Max">
+                        <input type="text" id="mobil" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); outline: none; font-family: inherit;" placeholder="e.g. Daihatsu Xenia / Isuzu D-Max">
                     </div>
 
                     <div class="form-grid-2">
                         <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                             <label for="cabang" style="font-weight: 600; font-size: 0.9rem; color: var(--color-secondary);">Pilih Cabang</label>
-                            <select id="cabang" required style="padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); outline: none; font-family: inherit; background-color: white;">
+                            <select id="cabang" required style="width: 100%; max-width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); outline: none; font-family: inherit; background-color: white;">
                                 <option value="" disabled selected>Pilih Cabang Bengkel</option>
                                 @foreach($outlets as $outlet)
                                     @php
@@ -118,13 +118,13 @@
 
                         <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                             <label for="tanggal" style="font-weight: 600; font-size: 0.9rem; color: var(--color-secondary);">Tanggal Servis</label>
-                            <input type="date" id="tanggal" required style="padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); outline: none; font-family: inherit;">
+                            <input type="date" id="tanggal" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); outline: none; font-family: inherit;">
                         </div>
                     </div>
 
                     <div style="display: flex; flex-direction: column; gap: 0.5rem;">
                         <label for="keluhan" style="font-weight: 600; font-size: 0.9rem; color: var(--color-secondary);">Jenis Servis & Keluhan</label>
-                        <textarea id="keluhan" rows="3" required style="padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); outline: none; font-family: inherit; resize: none;" placeholder="Sebutkan jenis servis (ganti oli, servis berkala, keluhan AC, dll.)"></textarea>
+                        <textarea id="keluhan" rows="3" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); outline: none; font-family: inherit; resize: none;" placeholder="Sebutkan jenis servis (ganti oli, servis berkala, keluhan AC, dll.)"></textarea>
                     </div>
 
                     <button type="submit" class="btn-primary" style="border: none; justify-content: center; padding: 1rem; width: 100%; cursor: pointer;">
