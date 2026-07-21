@@ -8,29 +8,48 @@
 @section('content')
     <!-- Hero Slider -->
     <section class="hero-slider">
-        @forelse($banners as $index => $banner)
-            <div class="slide {{ $index === 0 ? 'active' : '' }}">
-                <img src="{{ $banner->image }}" class="slide-bg" alt="{{ $banner->title }}">
-                <div class="slide-content">
-                    <h2>{{ $banner->title }}</h2>
-                    <p>Dealer Resmi Penjualan & Perawatan Isuzu & Daihatsu Terlengkap di Indonesia.</p>
-                    <a href="{{ route('branch') }}" class="btn-primary">
-                        <i class="fa-solid fa-map-location-dot"></i> Temukan Cabang
-                    </a>
+        <div class="hero-slider-track">
+            @forelse($banners as $index => $banner)
+                <div class="slide">
+                    <img src="{{ $banner->image }}" class="slide-bg" alt="{{ $banner->title }}">
+                    <div class="slide-content">
+                        <h2>{{ $banner->title }}</h2>
+                        <p>Dealer Resmi Penjualan & Perawatan Isuzu & Daihatsu Terlengkap di Indonesia.</p>
+                        <a href="{{ route('branch') }}" class="btn-primary">
+                            <i class="fa-solid fa-map-location-dot"></i> Temukan Cabang
+                        </a>
+                    </div>
                 </div>
-            </div>
-        @empty
-            <div class="slide active">
-                <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&q=80&w=1600" class="slide-bg" alt="Default Banner">
-                <div class="slide-content">
-                    <h2>Solusi Berkendara Keluarga & Bisnis Anda</h2>
-                    <p>Dealer Resmi Penjualan & Perawatan Isuzu & Daihatsu Terlengkap di Indonesia.</p>
-                    <a href="{{ route('branch') }}" class="btn-primary">
-                        <i class="fa-solid fa-map-location-dot"></i> Temukan Cabang
-                    </a>
+            @empty
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&q=80&w=1600" class="slide-bg" alt="Default Banner">
+                    <div class="slide-content">
+                        <h2>Solusi Berkendara Keluarga & Bisnis Anda</h2>
+                        <p>Dealer Resmi Penjualan & Perawatan Isuzu & Daihatsu Terlengkap di Indonesia.</p>
+                        <a href="{{ route('branch') }}" class="btn-primary">
+                            <i class="fa-solid fa-map-location-dot"></i> Temukan Cabang
+                        </a>
+                    </div>
                 </div>
+            @endforelse
+        </div>
+
+        @if(isset($banners) && count($banners) > 1)
+            <!-- Slider Controls -->
+            <button class="slider-btn prev-btn" aria-label="Previous Slide">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button class="slider-btn next-btn" aria-label="Next Slide">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+
+            <!-- Slider Indicators -->
+            <div class="slider-indicators">
+                @foreach($banners as $index => $banner)
+                    <span class="indicator-dot {{ $index === 0 ? 'active' : '' }}" data-index="{{ $index }}"></span>
+                @endforeach
             </div>
-        @endforelse
+        @endif
     </section>
 
     <!-- Brands Showcase -->
@@ -188,16 +207,194 @@
 
 @section('scripts')
     <script>
-        // Hero Slider functionality
-        const slides = document.querySelectorAll('.hero-slider .slide');
-        let currentSlide = 0;
-        
-        if(slides.length > 1) {
-            setInterval(() => {
-                slides[currentSlide].classList.remove('active');
-                currentSlide = (currentSlide + 1) % slides.length;
-                slides[currentSlide].classList.add('active');
-            }, 5000);
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const slider = document.querySelector('.hero-slider');
+            const track = document.querySelector('.hero-slider-track');
+            const slides = document.querySelectorAll('.hero-slider .slide');
+            const nextBtn = document.querySelector('.next-btn');
+            const prevBtn = document.querySelector('.prev-btn');
+            const dots = document.querySelectorAll('.indicator-dot');
+            
+            if (!slider || !track || slides.length <= 1) return;
+            
+            let currentSlide = 0;
+            let startX = 0;
+            let currentX = 0;
+            let isDragging = false;
+            let startTranslate = 0;
+            let autoplayTimer = null;
+            let currentTranslate = 0;
+            
+            function getSlideWidth() {
+                return slider.offsetWidth;
+            }
+            
+            function getTranslateX() {
+                return -currentSlide * getSlideWidth();
+            }
+            
+            function updatePosition(translate) {
+                track.style.transform = `translateX(${translate}px)`;
+                currentTranslate = translate;
+            }
+            
+            function setTransition(duration) {
+                track.style.transition = duration ? `transform ${duration}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)` : 'none';
+            }
+            
+            function updateDots() {
+                dots.forEach((dot, index) => {
+                    if (index === currentSlide) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+            
+            function goToSlide(index) {
+                currentSlide = index;
+                setTransition(500);
+                updatePosition(getTranslateX());
+                updateDots();
+            }
+            
+            function nextSlide() {
+                if (currentSlide < slides.length - 1) {
+                    goToSlide(currentSlide + 1);
+                } else {
+                    goToSlide(0);
+                }
+            }
+            
+            function prevSlide() {
+                if (currentSlide > 0) {
+                    goToSlide(currentSlide - 1);
+                } else {
+                    goToSlide(slides.length - 1);
+                }
+            }
+            
+            function startAutoplay() {
+                stopAutoplay();
+                autoplayTimer = setInterval(nextSlide, 5000);
+            }
+            
+            function stopAutoplay() {
+                if (autoplayTimer) {
+                    clearInterval(autoplayTimer);
+                }
+            }
+            
+            // Drag handlers
+            function handleDragStart(e) {
+                stopAutoplay();
+                isDragging = true;
+                startX = getEventX(e);
+                startTranslate = getTranslateX();
+                setTransition(0);
+                
+                slider.style.cursor = 'grabbing';
+            }
+            
+            function handleDragMove(e) {
+                if (!isDragging) return;
+                
+                currentX = getEventX(e);
+                const diffX = currentX - startX;
+                let newTranslate = startTranslate + diffX;
+                
+                // Elastic resistance boundary limits
+                const minTranslate = -(slides.length - 1) * getSlideWidth();
+                const maxTranslate = 0;
+                
+                if (newTranslate > maxTranslate) {
+                    newTranslate = maxTranslate + (newTranslate - maxTranslate) * 0.35;
+                } else if (newTranslate < minTranslate) {
+                    newTranslate = minTranslate + (newTranslate - minTranslate) * 0.35;
+                }
+                
+                updatePosition(newTranslate);
+            }
+            
+            function handleDragEnd(e) {
+                if (!isDragging) return;
+                isDragging = false;
+                slider.style.cursor = 'grab';
+                
+                const diffX = currentX - startX;
+                const threshold = getSlideWidth() * 0.2; // 20% width threshold
+                
+                if (Math.abs(diffX) > threshold && diffX !== 0) {
+                    if (diffX < 0) {
+                        nextSlide();
+                    } else {
+                        prevSlide();
+                    }
+                } else {
+                    goToSlide(currentSlide);
+                }
+                
+                startX = 0;
+                currentX = 0;
+                startAutoplay();
+            }
+            
+            function getEventX(e) {
+                return e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
+            }
+            
+            // Event listeners
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    stopAutoplay();
+                    nextSlide();
+                    startAutoplay();
+                });
+            }
+            
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    stopAutoplay();
+                    prevSlide();
+                    startAutoplay();
+                });
+            }
+            
+            dots.forEach(dot => {
+                dot.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    stopAutoplay();
+                    goToSlide(index);
+                    startAutoplay();
+                });
+            });
+            
+            // Touch events on track
+            track.addEventListener('touchstart', handleDragStart, { passive: true });
+            track.addEventListener('touchmove', handleDragMove, { passive: true });
+            track.addEventListener('touchend', handleDragEnd);
+            
+            // Mouse events on track
+            track.addEventListener('mousedown', handleDragStart);
+            window.addEventListener('mousemove', handleDragMove);
+            window.addEventListener('mouseup', handleDragEnd);
+            
+            // Reset position on window resize
+            window.addEventListener('resize', () => {
+                setTransition(0);
+                updatePosition(getTranslateX());
+            });
+            
+            // Prevent default drag for images/links
+            track.querySelectorAll('img, a').forEach(el => {
+                el.addEventListener('dragstart', (e) => e.preventDefault());
+            });
+            
+            // Initial Setup
+            slider.style.cursor = 'grab';
+            goToSlide(0);
+            startAutoplay();
+        });
     </script>
 @endsection

@@ -180,22 +180,22 @@ header {
     width: 100%;
     overflow: hidden;
     background-color: var(--color-secondary);
+    user-select: none;
+}
+
+.hero-slider-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    will-change: transform;
 }
 
 .slide {
-    position: absolute;
-    top: 0;
-    left: 0;
+    flex: 0 0 100%;
     width: 100%;
     height: 100%;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
+    position: relative;
     z-index: 1;
-}
-
-.slide.active {
-    opacity: 1;
-    z-index: 2;
 }
 
 .slide-bg {
@@ -213,6 +213,83 @@ header {
     color: var(--color-text-light);
     max-width: 650px;
     z-index: 3;
+}
+
+/* Slider Controls & Indicators */
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    transition: background 0.3s, border-color 0.3s, transform 0.3s, opacity 0.3s;
+    opacity: 0.8;
+}
+
+.slider-btn:hover {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    transform: translateY(-50%) scale(1.1);
+    opacity: 1;
+}
+
+.prev-btn {
+    left: 24px;
+}
+
+.next-btn {
+    right: 24px;
+}
+
+.slider-indicators {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.indicator-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s, width 0.3s;
+}
+
+.indicator-dot.active {
+    background: var(--color-primary);
+    width: 24px;
+    border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .slider-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 0.95rem;
+    }
+    .prev-btn {
+        left: 12px;
+    }
+    .next-btn {
+        right: 12px;
+    }
 }
 
 .slide-content h2 {
